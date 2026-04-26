@@ -29,10 +29,10 @@ export function TopNav() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-[14px] font-medium ${
+                className={`text-[14px] ${
                   isActive
-                    ? "text-[var(--color-text-primary)]"
-                    : "text-[var(--color-text-secondary)] hover:opacity-90"
+                    ? "font-medium text-[var(--color-text-primary)]"
+                    : "font-normal text-[var(--color-text-secondary)] hover:opacity-90"
                 }`}
               >
                 {item.label}

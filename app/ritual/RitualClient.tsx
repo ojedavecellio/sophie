@@ -38,6 +38,9 @@ export function RitualClient() {
   const hasMorning = Boolean(morningEntry);
   const hasEvening = Boolean(eveningEntry);
   const shouldShowEvening = unlockedEvening && hasMorning && !hasEvening;
+  const showingMorningForm = !hasMorning;
+  const showingEveningForm = shouldShowEvening;
+  const momentLabel = showingEveningForm ? "Momento nocturno" : "Momento matutino";
 
   const handleMorningSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -85,9 +88,7 @@ export function RitualClient() {
   };
 
   const inputClassName =
-    "w-full border-0 border-b border-[var(--color-border)] bg-transparent px-0 py-3 text-[16px] text-[var(--color-text-primary)] outline-none focus:border-[var(--color-text-primary)]";
-
-  const sectionClassName = "space-y-6 border border-[var(--color-border)] p-6";
+    "h-20 w-full resize-none border-0 border-b border-[var(--color-border)] bg-transparent px-0 py-3 text-[16px] text-[var(--color-text-primary)] outline-none focus:border-[var(--color-text-primary)]";
 
   if (hasMorning && hasEvening) {
     return (
@@ -95,7 +96,7 @@ export function RitualClient() {
         <h1 className="font-[family-name:var(--font-libre-caslon-text)] text-[30px] font-normal">
           Ritual de hoy
         </h1>
-        <div className="space-y-6 border border-[var(--color-border)] p-6">
+        <div className="space-y-6">
           <p className="text-[16px]">Ritual completo por hoy.</p>
           <Link href="/history" className="text-[14px] text-[var(--color-text-secondary)] underline">
             Ver historial
@@ -108,67 +109,76 @@ export function RitualClient() {
   return (
     <section className="space-y-10">
       <header className="space-y-3">
-        <p className="text-[14px] text-[var(--color-text-secondary)]">
-          {unlockedEvening ? "Momento nocturno" : "Momento matinal"}
-        </p>
+        <p className="text-[14px] text-[var(--color-text-secondary)]">{momentLabel}</p>
         <h1 className="font-[family-name:var(--font-libre-caslon-text)] text-[30px] font-normal">
           Ritual de hoy
         </h1>
       </header>
 
-      {!hasMorning && (
-        <form onSubmit={handleMorningSubmit} className="space-y-12">
-          <div className={sectionClassName}>
+      {showingMorningForm && (
+        <form onSubmit={handleMorningSubmit}>
+          <div className="flex flex-col gap-16">
+            <div className="space-y-4">
             <label className="text-[13px] font-medium tracking-wide text-[var(--color-text-secondary)] uppercase">
               Cuerpo
             </label>
-            <h2 className="mt-6 font-[family-name:var(--font-libre-caslon-text)] text-[28px] font-normal">
-              ¿Qué hago hoy con mi cuerpo?
-            </h2>
-            <textarea
-              required
-              value={morningBody}
-              onChange={(event) => setMorningBody(event.target.value)}
-              className={inputClassName}
-              rows={3}
-            />
+            <div className="space-y-3">
+              <p className="font-[family-name:var(--font-libre-caslon-text)] text-[24px] font-normal text-[var(--color-text-primary)]">
+                ¿Qué hago hoy con mi cuerpo?
+              </p>
+              <textarea
+                required
+                value={morningBody}
+                onChange={(event) => setMorningBody(event.target.value)}
+                className={inputClassName}
+                rows={3}
+                placeholder="Escribí acá..."
+              />
+            </div>
           </div>
 
-          <div className={sectionClassName}>
+            <div className="space-y-4">
             <label className="text-[13px] font-medium tracking-wide text-[var(--color-text-secondary)] uppercase">
               Mente
             </label>
-            <h2 className="mt-6 font-[family-name:var(--font-libre-caslon-text)] text-[28px] font-normal">
-              ¿Qué necesita mi mente hoy?
-            </h2>
-            <textarea
-              required
-              value={morningMind}
-              onChange={(event) => setMorningMind(event.target.value)}
-              className={inputClassName}
-              rows={3}
-            />
+            <div className="space-y-3">
+              <p className="font-[family-name:var(--font-libre-caslon-text)] text-[24px] font-normal text-[var(--color-text-primary)]">
+                ¿Qué necesita mi mente hoy?
+              </p>
+              <textarea
+                required
+                value={morningMind}
+                onChange={(event) => setMorningMind(event.target.value)}
+                className={inputClassName}
+                rows={3}
+                placeholder="Escribí acá..."
+              />
+            </div>
           </div>
 
-          <div className={sectionClassName}>
+            <div className="space-y-4">
             <label className="text-[13px] font-medium tracking-wide text-[var(--color-text-secondary)] uppercase">
               Alma
             </label>
-            <h2 className="mt-6 font-[family-name:var(--font-libre-caslon-text)] text-[28px] font-normal">
-              ¿Qué voy a honrar hoy?
-            </h2>
-            <textarea
-              required
-              value={morningSoul}
-              onChange={(event) => setMorningSoul(event.target.value)}
-              className={inputClassName}
-              rows={3}
-            />
+            <div className="space-y-3">
+              <p className="font-[family-name:var(--font-libre-caslon-text)] text-[24px] font-normal text-[var(--color-text-primary)]">
+                ¿Qué voy a honrar hoy?
+              </p>
+              <textarea
+                required
+                value={morningSoul}
+                onChange={(event) => setMorningSoul(event.target.value)}
+                className={inputClassName}
+                rows={3}
+                placeholder="Escribí acá..."
+              />
+            </div>
+          </div>
           </div>
 
           <button
             type="submit"
-            className="rounded-[4px] bg-[var(--color-text-primary)] px-6 py-3 text-[15px] font-medium text-[var(--color-bg)] hover:opacity-90"
+            className="mx-auto mt-12 block w-full rounded-[4px] bg-[var(--color-text-primary)] px-6 py-3 text-[15px] font-medium text-[var(--color-bg)] hover:opacity-90 sm:w-auto"
           >
             Guardar ritual
           </button>
@@ -177,14 +187,14 @@ export function RitualClient() {
 
       {hasMorning && !shouldShowEvening && !hasEvening && (
         <div className="space-y-10">
-          <div className="space-y-4 border border-[var(--color-border)] p-6">
+          <div className="space-y-4">
             <p className="text-[16px]">Ya completaste el ritual de la mañana.</p>
             <p className="text-[14px] text-[var(--color-text-secondary)]">
               La revisión nocturna se habilita a las 18:00.
             </p>
           </div>
 
-          <div className="space-y-6 border border-[var(--color-border)] p-6">
+          <div className="space-y-8">
             <div className="space-y-2">
               <p className="text-[13px] uppercase tracking-wide text-[var(--color-text-secondary)]">Cuerpo</p>
               <p className="text-[16px]">{morningEntry?.body_answer}</p>
@@ -201,36 +211,38 @@ export function RitualClient() {
         </div>
       )}
 
-      {shouldShowEvening && (
-        <form onSubmit={handleEveningSubmit} className="space-y-12">
-          <EveningQuestion
-            label="Cuerpo"
-            question="¿Gané la batalla del cuerpo?"
-            won={bodyWon}
-            reason={bodyReason}
-            onWonChange={setBodyWon}
-            onReasonChange={setBodyReason}
-          />
-          <EveningQuestion
-            label="Mente"
-            question="¿Gané la batalla de la mente?"
-            won={mindWon}
-            reason={mindReason}
-            onWonChange={setMindWon}
-            onReasonChange={setMindReason}
-          />
-          <EveningQuestion
-            label="Alma"
-            question="¿Gané la batalla del alma?"
-            won={soulWon}
-            reason={soulReason}
-            onWonChange={setSoulWon}
-            onReasonChange={setSoulReason}
-          />
+      {showingEveningForm && (
+        <form onSubmit={handleEveningSubmit}>
+          <div className="flex flex-col gap-16">
+            <EveningQuestion
+              label="Cuerpo"
+              question="¿Gané la batalla del cuerpo?"
+              won={bodyWon}
+              reason={bodyReason}
+              onWonChange={setBodyWon}
+              onReasonChange={setBodyReason}
+            />
+            <EveningQuestion
+              label="Mente"
+              question="¿Gané la batalla de la mente?"
+              won={mindWon}
+              reason={mindReason}
+              onWonChange={setMindWon}
+              onReasonChange={setMindReason}
+            />
+            <EveningQuestion
+              label="Alma"
+              question="¿Gané la batalla del alma?"
+              won={soulWon}
+              reason={soulReason}
+              onWonChange={setSoulWon}
+              onReasonChange={setSoulReason}
+            />
+          </div>
 
           <button
             type="submit"
-            className="rounded-[4px] bg-[var(--color-text-primary)] px-6 py-3 text-[15px] font-medium text-[var(--color-bg)] hover:opacity-90"
+            className="mx-auto mt-12 block w-full rounded-[4px] bg-[var(--color-text-primary)] px-6 py-3 text-[15px] font-medium text-[var(--color-bg)] hover:opacity-90 sm:w-auto"
           >
             Guardar revisión
           </button>
@@ -262,12 +274,14 @@ function EveningQuestion({
   const sharedButtonClass = "rounded-[4px] px-6 py-3 text-[15px] font-medium";
 
   return (
-    <div className="space-y-6 border border-[var(--color-border)] p-6">
+    <div className="space-y-6">
       <label className="text-[13px] font-medium uppercase tracking-wide text-[var(--color-text-secondary)]">
         {label}
       </label>
 
-      <h2 className="font-[family-name:var(--font-libre-caslon-text)] text-[28px] font-normal">{question}</h2>
+      <p className="font-[family-name:var(--font-libre-caslon-text)] text-[24px] font-normal text-[var(--color-text-primary)]">
+        {question}
+      </p>
 
       <div className="flex flex-wrap gap-3">
         <button
